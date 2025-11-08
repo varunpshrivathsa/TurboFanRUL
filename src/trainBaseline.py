@@ -7,7 +7,8 @@ from sklearn.ensemble import RandomForestRegressor
 from xgboost import XGBRegressor
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score 
 import shutil
-
+import mlflow
+import mlflow.sklearn
 
 DATA_DIR = "../data/processed"
 MODEL_DIR = "../models"
@@ -15,6 +16,8 @@ RESULTS_DIR = "../results/baseline_results.csv"
 
 os.makedirs(MODEL_DIR,exist_ok=True)
 os.makedirs(os.path.dirname(RESULTS_DIR),exist_ok=True)
+
+mlflow.set_experiment("Turbofan_Baseline_Models")
 
 #step1 -> Load Data
 def load_data():
@@ -59,19 +62,39 @@ def train_and_evaluate_models(X_train, X_test, y_train, y_test):
     
     for name, model in models.items():
         print(f"Training {name}")
-        model.fit(X_train,y_train)
-        rmse, mae, r2 = evaluate_model(model,X_test,y_test)
-        results.append({
-            "Model":name,
-            "RMSE": round(rmse,3),
-            "MAE": round(mae, 3),
-            "R2": round(r2,3)
-        })
 
-        model_path = os.path.join(MODEL_DIR, f"{name.replace(' ','_').lower()}.pkl")
-        joblib.dump(model,model_path)
-        print(f"{name} done. RMSE = {rmse:.3f}, MAE={mae:.3f}, R2={r2:.3f}")
-        print(f"Saved model to {model_path}")
+        with mlflow.start_run(run_name=name):
+            model.fit(X_train,y_train)
+            rmse, mae, r2 = evaluate_model(model,X_test,y_test)
+
+            mlflow.log_param("model_name",name)
+            if name == "Random Forest":
+                mlflow.log_params(model.get_params())
+            elif name == "XGBoost":
+                mlflow.log_params({
+                    "n_estimators":model.n_estimators,
+                    "learning_rate":model.learning_rate,
+                    "max_depth": getattr(model,"max_depth",None)
+                })
+
+            mlflow.log_metric("RMSE",rmse)
+            mlflow.log_metric("MAE",mae)
+            mlflow.log_metric("R2",r2)
+
+            mlflow.sklearn.log_model(model, name=name.replace(" ","_").lower())
+            
+            model_path = os.path.join(MODEL_DIR, f"{name.replace(' ','_').lower()}.pkl")
+            joblib.dump(model,model_path)
+            print(f"{name} done. RMSE = {rmse:.3f}, MAE={mae:.3f}, R2={r2:.3f}")
+            print(f"Saved model to {model_path}")
+
+            results.append({
+                "Model":name,
+                "RMSE": round(rmse,3),
+                "MAE": round(mae, 3),
+                "R2": round(r2,3)
+            })
+
 
     return pd.DataFrame(results)
 
@@ -100,8 +123,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
-
-
-
-
