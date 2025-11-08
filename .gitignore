@@ -4,3 +4,7 @@ venv/mlruns/
 models/*.pkl
 data/processed/
 data/raw/
+src/mlruns/
+models/*.pkl
+data/processed/
+data/raw/
