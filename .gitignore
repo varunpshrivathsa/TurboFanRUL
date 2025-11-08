@@ -1,3 +1,6 @@
 .env
 mls1/
-venv/
+venv/mlruns/
+models/*.pkl
+data/processed/
+data/raw/
