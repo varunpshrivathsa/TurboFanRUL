@@ -1,5 +1,5 @@
 # ---------- Base Image ----------
-FROM --platform=linux/arm64 python:3.10-slim
+FROM python:3.10-slim
 
 # ---------- Work Directory ----------
 WORKDIR /app
