@@ -8,3 +8,4 @@ xgboost
 joblib
 requests
 uvicorn==0.29.0
+fastapi
