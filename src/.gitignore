@@ -1,0 +1,4 @@
+mlruns/
+models/*.pkl # optional: avoid committing model files too
+data/processed/
+data/raw/
