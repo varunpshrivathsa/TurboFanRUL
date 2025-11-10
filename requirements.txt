@@ -7,3 +7,4 @@ scikit-learn
 xgboost
 joblib
 requests
+uvicorn==0.29.0
