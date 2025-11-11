@@ -1,4 +1,4 @@
-# TurboFanRUL 🛠️  
+# TurboFanRUL 
 End-to-end machine learning backend for predicting Remaining Useful Life (RUL) of turbofan engines using NASA CMAPSS dataset.  
 Includes data preprocessing, model training with Optuna tuning, MLflow experiment tracking, and a FastAPI inference service ready for Docker deployment.
 
@@ -72,9 +72,9 @@ curl -X POST "http://localhost:8000/predict" \
 -H "Content-Type: application/json" \
 -d @sample_valid_input.json
 
-🧩 Related Project
-
-🔗 Streamlit Dashboard Frontend:
+Related Project
+Streamlit Dashboard Frontend:
 Turbofan_RUL-Dashboard
 
 MIT License © 2025 Varun Phanindra Shrivathsa
+
