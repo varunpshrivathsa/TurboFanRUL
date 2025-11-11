@@ -18,16 +18,16 @@ Includes data preprocessing, model training with Optuna tuning, MLflow experimen
 ## Project Structure
 TurboFanRUL/
 │
-├── data/ # Raw & processed data
-├── models/ # Saved model files (.pkl, .json)
-├── notebooks/ # EDA and RUL analysis
-├── results/ # Metrics, plots, Optuna logs
-├── src/ # Core training + API logic
-│ ├── preprocess.py
-│ ├── train_baseline.py
-│ ├── trainOptuna.py
-│ ├── api_service.py
-│ └── utils.py
+├── data/                # Raw & processed data
+├── models/              # Saved model files (.pkl, .json)
+├── notebooks/           # EDA and RUL analysis
+├── results/             # Metrics, plots, Optuna logs
+├── src/                 # Core training + API logic
+│   ├── preprocess.py
+│   ├── train_baseline.py
+│   ├── trainOptuna.py
+│   ├── api_service.py
+│   └── utils.py
 ├── docker-compose.yml
 ├── Dockerfile.api
 ├── requirements.txt
@@ -77,4 +77,5 @@ Streamlit Dashboard Frontend:
 Turbofan_RUL-Dashboard
 
 MIT License © 2025 Varun Phanindra Shrivathsa
+
 
